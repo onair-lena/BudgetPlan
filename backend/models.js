@@ -19,29 +19,10 @@ const Record = sequilize.define('record', {
   date: { type: DataTypes.DATE },
 });
 
-const Currency = sequilize.define('currencyName', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.STRING, unique: true },
-  code: { type: DataTypes.STRING, unique: true },
-});
-
-const RecordType = sequilize.define('recordType', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.STRING, unique: true },
-});
-
 User.hasMany(Record);
 Record.belongsTo(User);
-
-Record.hasOne(RecordType);
-RecordType.belongsTo(Record);
-
-Record.hasOne(Currency);
-Currency.belongsTo(Record);
 
 module.exports = {
   User,
   Record,
-  RecordType,
-  Currency,
 };
