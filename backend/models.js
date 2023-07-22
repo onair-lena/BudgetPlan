@@ -15,7 +15,16 @@ const Record = sequilize.define('record', {
   description: { type: DataTypes.STRING },
   value: { type: DataTypes.INTEGER },
   currency: { type: DataTypes.STRING },
-  type: { type: DataTypes.STRING },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: {
+        args: [['income', 'expense']],
+        msg: 'Invalid record type',
+      },
+    },
+  },
   date: { type: DataTypes.DATE },
 });
 
