@@ -2,13 +2,7 @@ const { where } = require('sequelize');
 const ApiError = require('../errors/ApiError');
 const bcrypt = require('bcrypt');
 const { User, Record } = require('../models');
-const jwt = require('jsonwebtoken');
-
-const generateJWT = (id, email) => {
-  return jwt.sign({ id, email }, process.env.SECRET_KEY, {
-    expiresIn: '24h',
-  });
-};
+const generateJWT = require('../utils/generateJWT');
 
 class UserController {
   async registration(req, res, next) {
@@ -40,12 +34,9 @@ class UserController {
     return res.json({ token });
   }
 
-  async isAuth(req, res, next) {
-    const { id } = req.query;
-    if (!id) {
-      return next(ApiError.badRequest('ID is missing'));
-    }
-    res.json(id);
+  async isAuth(req, res) {
+    const token = generateJWT(req.user.id, req.user.email);
+    return res.json({ token });
   }
 }
 
