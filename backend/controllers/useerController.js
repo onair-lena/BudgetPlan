@@ -4,6 +4,12 @@ const bcrypt = require('bcrypt');
 const { User, Record } = require('../models');
 const jwt = require('jsonwebtoken');
 
+const generateJWT = (id, email) => {
+  return jwt.sign({ id, email }, process.env.SECRET_KEY, {
+    expiresIn: '24h',
+  });
+};
+
 class UserController {
   async registration(req, res, next) {
     const { email, password } = req.body;
@@ -16,13 +22,23 @@ class UserController {
     }
     const hashPAssword = await bcrypt.hash(password, 5);
     const user = await User.create({ email, password: hashPAssword });
-    const token = jwt.sign({ id: user.id, email }, process.env.SECRET_KEY, {
-      expiresIn: '24h',
-    });
+    const token = generateJWT(user.id, email);
     return res.json({ token });
   }
 
-  async login(req, res) {}
+  async login(req, res, next) {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return next(ApiError.badRequest('User does not exist'));
+    }
+    const comparePassword = bcrypt.compareSync(password, user.password);
+    if (!comparePassword) {
+      return next(ApiError.badRequest('User does not exist'));
+    }
+    const token = generateJWT(user.id, user.email);
+    return res.json({ token });
+  }
 
   async isAuth(req, res, next) {
     const { id } = req.query;
