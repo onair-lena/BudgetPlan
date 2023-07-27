@@ -5,15 +5,16 @@ const { ValidationError } = require('sequelize');
 class RecordController {
   async create(req, res, next) {
     try {
-      const { record_name, description, value, currency, type, date } =
-        req.body;
+      const { recordName, description, value, currency, type, date } = req.body;
+      const { id } = req.user;
       const record = await Record.create({
-        record_name,
+        recordName,
         description,
         value: value || 0,
         currency: currency || 'usd',
         type,
         date: date || Date.now(),
+        userId: id,
       });
       return res.json(record);
     } catch (err) {
