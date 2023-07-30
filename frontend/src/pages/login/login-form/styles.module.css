@@ -1,0 +1,22 @@
+.formInput {
+  margin: 24px 0;
+}
+
+.formButton {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.formTitle {
+  text-align: center;
+}
+
+.loginWrapper {
+  padding: 24px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: rgba(196, 196, 196, 0.2);
+  border-radius: 8px;
+  @media only screen and (min-width: 960px) {
+    min-width: 300px;
+  }
+}
