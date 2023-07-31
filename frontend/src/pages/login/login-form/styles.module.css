@@ -20,3 +20,17 @@
     min-width: 300px;
   }
 }
+
+.formText {
+  margin-left: 4px;
+
+  &:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.formTextContainer {
+  text-align: end;
+}

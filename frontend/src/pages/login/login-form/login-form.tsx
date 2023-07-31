@@ -1,16 +1,19 @@
 import { Button, Input, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import styles from './styles.module.css';
+import { useState } from 'react';
 
 export const LoginForm = () => {
+  const [isNew, setIsNew] = useState(true);
+
   return (
     <div className={styles.loginWrapper}>
       <form>
         <Typography.Title className={styles.formTitle} level={2}>
-          Wellcome back
+          {isNew ? 'Create your account' : 'Wellcome back'}
         </Typography.Title>
         <Typography.Title className={styles.formTitle} level={4}>
-          Please, enter your details to sign-in
+          {`Please, enter your details to sign-${isNew ? 'up' : 'in'}`}
         </Typography.Title>
         <Input
           className={styles.formInput}
@@ -26,6 +29,17 @@ export const LoginForm = () => {
           Submit
         </Button>
       </form>
+      <div className={styles.formTextContainer}>
+        <Typography.Text>
+          {isNew ? 'Have an account?' : 'Don`t you have an account?'}
+        </Typography.Text>
+        <Typography.Text
+          className={styles.formText}
+          onClick={() => setIsNew(!isNew)}
+        >
+          {isNew ? 'Sign In' : 'Sign Up'}
+        </Typography.Text>
+      </div>
     </div>
   );
 };
