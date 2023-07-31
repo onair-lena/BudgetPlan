@@ -1,25 +1,43 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import { Login } from './pages/login/login';
+import { Context } from '.';
+import UserStore from './store/UserStore';
+import { privateRoutes, publicRoutes } from './routes/routes';
 
-const App: React.FC = () => (
-  <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: '#101fdc',
-        colorSuccess: '#13790d',
-        colorWarning: '#FADB14',
-        colorError: '#e82b18',
-      },
-    }}
-  >
-    <Routes>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/" element={<h2>Home</h2>}></Route>
-    </Routes>
-  </ConfigProvider>
-);
+interface ContextType {
+  user: UserStore;
+}
+
+const App: React.FC = () => {
+  const { user } = useContext(Context) as ContextType;
+
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#101fdc',
+          colorSuccess: '#13790d',
+          colorWarning: '#FADB14',
+          colorError: '#e82b18',
+        },
+      }}
+    >
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        {user.isAuth &&
+          privateRoutes.map(({ path, Component }) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
+        {publicRoutes.map(({ path, Component }) => (
+          <Route key={path} path={path} element={<Component />} />
+        ))}
+        <Route path="*" element={<Navigate replace to="/login" />} />
+      </Routes>
+    </ConfigProvider>
+  );
+};
 
 export default App;
