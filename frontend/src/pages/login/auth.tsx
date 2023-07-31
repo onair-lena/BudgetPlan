@@ -1,7 +1,7 @@
 import { LoginForm } from './login-form/login-form';
 import styles from './styles.module.css';
 
-export const Login = () => {
+export const Auth = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.loginContainer}>

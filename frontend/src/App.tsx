@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import React, { useContext } from 'react';
 import './App.css';
-import { Login } from './pages/login/login';
+
 import { Context } from '.';
 import UserStore from './store/UserStore';
 import { privateRoutes, publicRoutes } from './routes/routes';
@@ -26,7 +26,6 @@ const App: React.FC = () => {
       }}
     >
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
         {user.isAuth &&
           privateRoutes.map(({ path, Component }) => (
             <Route key={path} path={path} element={<Component />} />

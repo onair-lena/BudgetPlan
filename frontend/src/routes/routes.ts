@@ -1,6 +1,6 @@
 import { Dashboard } from '../pages/dashboard/dashboard';
-import { Login } from '../pages/login/login';
-import { DASHBOARD, LOGIN } from './route-const';
+import { Auth } from '../pages/login/auth';
+import { DASHBOARD, LOGIN, REGISTRATION } from './route-const';
 
 export const privateRoutes = [
   {
@@ -12,6 +12,10 @@ export const privateRoutes = [
 export const publicRoutes = [
   {
     path: LOGIN,
-    Component: Login,
+    Component: Auth,
+  },
+  {
+    path: REGISTRATION,
+    Component: Auth,
   },
 ];

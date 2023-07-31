@@ -2,18 +2,22 @@ import { Button, Input, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import styles from './styles.module.css';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LOGIN, REGISTRATION } from '../../../routes/route-const';
 
 export const LoginForm = () => {
-  const [isNew, setIsNew] = useState(true);
+  const { pathname } = useLocation();
+  const isNewUser = pathname === REGISTRATION;
+  const navigate = useNavigate();
 
   return (
     <div className={styles.loginWrapper}>
       <form>
         <Typography.Title className={styles.formTitle} level={2}>
-          {isNew ? 'Create your account' : 'Wellcome back'}
+          {isNewUser ? 'Create your account' : 'Wellcome back'}
         </Typography.Title>
         <Typography.Title className={styles.formTitle} level={4}>
-          {`Please, enter your details to sign-${isNew ? 'up' : 'in'}`}
+          {`Please, enter your details to sign-${isNewUser ? 'up' : 'in'}`}
         </Typography.Title>
         <Input
           className={styles.formInput}
@@ -23,7 +27,7 @@ export const LoginForm = () => {
 
         <Input.Password
           className={styles.formInput}
-          placeholder="input password"
+          placeholder="Please, enter password"
         />
         <Button className={styles.formButton} type="primary">
           Submit
@@ -31,13 +35,13 @@ export const LoginForm = () => {
       </form>
       <div className={styles.formTextContainer}>
         <Typography.Text>
-          {isNew ? 'Have an account?' : 'Don`t you have an account?'}
+          {isNewUser ? 'Have an account?' : 'Don`t you have an account?'}
         </Typography.Text>
         <Typography.Text
           className={styles.formText}
-          onClick={() => setIsNew(!isNew)}
+          onClick={() => navigate(isNewUser ? LOGIN : REGISTRATION)}
         >
-          {isNew ? 'Sign In' : 'Sign Up'}
+          {isNewUser ? 'Sign In' : 'Sign Up'}
         </Typography.Text>
       </div>
     </div>
